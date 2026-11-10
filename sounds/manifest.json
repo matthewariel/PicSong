@@ -1,0 +1,411 @@
+{
+  "note": "Clip order is part of the picture-to-sound mapping. Do not reorder.",
+  "clips": [
+    {
+      "id": "quack",
+      "tag": "animal",
+      "file": "quack.wav",
+      "seconds": 0.18,
+      "line": "A duck contributed."
+    },
+    {
+      "id": "double-quack",
+      "tag": "animal",
+      "file": "double-quack.wav",
+      "seconds": 0.37501,
+      "line": "The duck had a follow-up."
+    },
+    {
+      "id": "moo",
+      "tag": "animal",
+      "file": "moo.wav",
+      "seconds": 0.86,
+      "line": "A cow explained itself."
+    },
+    {
+      "id": "meow",
+      "tag": "animal",
+      "file": "meow.wav",
+      "seconds": 0.5,
+      "line": "A cat entered, uninvited."
+    },
+    {
+      "id": "bark",
+      "tag": "animal",
+      "file": "bark.wav",
+      "seconds": 0.26,
+      "line": "Something barked at the picture."
+    },
+    {
+      "id": "yip",
+      "tag": "animal",
+      "file": "yip.wav",
+      "seconds": 0.22599,
+      "line": "A small dog has notes."
+    },
+    {
+      "id": "ribbit",
+      "tag": "animal",
+      "file": "ribbit.wav",
+      "seconds": 0.31499,
+      "line": "A frog called the meeting."
+    },
+    {
+      "id": "chirp",
+      "tag": "animal",
+      "file": "chirp.wav",
+      "seconds": 0.25803,
+      "line": "A bird did not like that pixel."
+    },
+    {
+      "id": "baa",
+      "tag": "animal",
+      "file": "baa.wav",
+      "seconds": 0.72,
+      "line": "The sheep would like to speak."
+    },
+    {
+      "id": "oink",
+      "tag": "animal",
+      "file": "oink.wav",
+      "seconds": 0.3,
+      "line": "A pig made it personal."
+    },
+    {
+      "id": "cluck",
+      "tag": "animal",
+      "file": "cluck.wav",
+      "seconds": 0.28601,
+      "line": "A chicken took attendance."
+    },
+    {
+      "id": "hoot",
+      "tag": "animal",
+      "file": "hoot.wav",
+      "seconds": 0.65,
+      "line": "An owl stayed up for this."
+    },
+    {
+      "id": "neigh",
+      "tag": "animal",
+      "file": "neigh.wav",
+      "seconds": 0.78,
+      "line": "A horse has concerns."
+    },
+    {
+      "id": "hiss",
+      "tag": "animal",
+      "file": "hiss.wav",
+      "seconds": 0.62,
+      "line": "Something without legs objected."
+    },
+    {
+      "id": "buzz",
+      "tag": "animal",
+      "file": "buzz.wav",
+      "seconds": 0.55,
+      "line": "A bee filed a noise complaint."
+    },
+    {
+      "id": "goose",
+      "tag": "animal",
+      "file": "goose.wav",
+      "seconds": 0.4,
+      "line": "A goose is in charge now."
+    },
+    {
+      "id": "howl",
+      "tag": "animal",
+      "file": "howl.wav",
+      "seconds": 0.88,
+      "line": "Something howled, professionally."
+    },
+    {
+      "id": "heehaw",
+      "tag": "animal",
+      "file": "heehaw.wav",
+      "seconds": 0.76,
+      "line": "A donkey finished the thought."
+    },
+    {
+      "id": "trumpet-blat",
+      "tag": "brass",
+      "file": "trumpet-blat.wav",
+      "seconds": 0.22,
+      "line": "A trumpet blurted."
+    },
+    {
+      "id": "trumpet-higher",
+      "tag": "brass",
+      "file": "trumpet-higher.wav",
+      "seconds": 0.18,
+      "line": "A smaller trumpet agreed."
+    },
+    {
+      "id": "tuba-blurt",
+      "tag": "brass",
+      "file": "tuba-blurt.wav",
+      "seconds": 0.42,
+      "line": "The tuba moved furniture."
+    },
+    {
+      "id": "trombone-slide",
+      "tag": "brass",
+      "file": "trombone-slide.wav",
+      "seconds": 0.46,
+      "line": "A trombone went looking."
+    },
+    {
+      "id": "horn-soft",
+      "tag": "brass",
+      "file": "horn-soft.wav",
+      "seconds": 0.5,
+      "line": "A horn, from the next room."
+    },
+    {
+      "id": "kazoo",
+      "tag": "brass",
+      "file": "kazoo.wav",
+      "seconds": 0.32,
+      "line": "Kazoo. Unfortunately."
+    },
+    {
+      "id": "vuvuzela",
+      "tag": "brass",
+      "file": "vuvuzela.wav",
+      "seconds": 0.48,
+      "line": "A plastic horn found the building."
+    },
+    {
+      "id": "wah-mute",
+      "tag": "brass",
+      "file": "wah-mute.wav",
+      "seconds": 0.34,
+      "line": "Muted brass, unmuted feelings."
+    },
+    {
+      "id": "sax-honk",
+      "tag": "brass",
+      "file": "sax-honk.wav",
+      "seconds": 0.22,
+      "line": "A saxophone honked once and left."
+    },
+    {
+      "id": "harmonica",
+      "tag": "brass",
+      "file": "harmonica.wav",
+      "seconds": 0.36,
+      "line": "A harmonica in a pocket did its best."
+    },
+    {
+      "id": "piano-low",
+      "tag": "plink",
+      "file": "piano-low.wav",
+      "seconds": 0.52,
+      "line": "A toy piano sat on a low key."
+    },
+    {
+      "id": "piano-high",
+      "tag": "plink",
+      "file": "piano-high.wav",
+      "seconds": 0.42,
+      "line": "A toy piano apologizes."
+    },
+    {
+      "id": "xylophone",
+      "tag": "plink",
+      "file": "xylophone.wav",
+      "seconds": 0.28,
+      "line": "Wood, struck with confidence."
+    },
+    {
+      "id": "glock",
+      "tag": "plink",
+      "file": "glock.wav",
+      "seconds": 0.7,
+      "line": "A glockenspiel, briefly."
+    },
+    {
+      "id": "kalimba",
+      "tag": "plink",
+      "file": "kalimba.wav",
+      "seconds": 0.6,
+      "line": "A thumb piano twanged."
+    },
+    {
+      "id": "music-box",
+      "tag": "plink",
+      "file": "music-box.wav",
+      "seconds": 0.62,
+      "line": "A music box remembered one tooth."
+    },
+    {
+      "id": "ukulele",
+      "tag": "plink",
+      "file": "ukulele.wav",
+      "seconds": 0.5,
+      "line": "Four strings, one opinion."
+    },
+    {
+      "id": "banjo",
+      "tag": "plink",
+      "file": "banjo.wav",
+      "seconds": 0.36,
+      "line": "A banjo arrived too early."
+    },
+    {
+      "id": "marimba",
+      "tag": "plink",
+      "file": "marimba.wav",
+      "seconds": 0.45,
+      "line": "A soft mallet, a hard no."
+    },
+    {
+      "id": "triangle",
+      "tag": "plink",
+      "file": "triangle.wav",
+      "seconds": 0.55,
+      "line": "The triangle. That is the whole statement."
+    },
+    {
+      "id": "wood-bonk",
+      "tag": "bonk",
+      "file": "wood-bonk.wav",
+      "seconds": 0.12,
+      "line": "Bonk."
+    },
+    {
+      "id": "pot-clang",
+      "tag": "bonk",
+      "file": "pot-clang.wav",
+      "seconds": 0.42,
+      "line": "A pot took the hit."
+    },
+    {
+      "id": "spoon",
+      "tag": "bonk",
+      "file": "spoon.wav",
+      "seconds": 0.14,
+      "line": "Spoon."
+    },
+    {
+      "id": "knock",
+      "tag": "bonk",
+      "file": "knock.wav",
+      "seconds": 0.25,
+      "line": "Someone is at the pixel."
+    },
+    {
+      "id": "glass-clink",
+      "tag": "bonk",
+      "file": "glass-clink.wav",
+      "seconds": 0.34,
+      "line": "Glasses, no toast."
+    },
+    {
+      "id": "cowbell",
+      "tag": "bonk",
+      "file": "cowbell.wav",
+      "seconds": 0.28,
+      "line": "A cowbell got involved."
+    },
+    {
+      "id": "temple-block",
+      "tag": "bonk",
+      "file": "temple-block.wav",
+      "seconds": 0.09,
+      "line": "A wooden block has spoken."
+    },
+    {
+      "id": "clown-horn",
+      "tag": "bonk",
+      "file": "clown-horn.wav",
+      "seconds": 0.3,
+      "line": "Honk."
+    },
+    {
+      "id": "bike-bell",
+      "tag": "bonk",
+      "file": "bike-bell.wav",
+      "seconds": 0.49,
+      "line": "A bicycle, indoors."
+    },
+    {
+      "id": "thud",
+      "tag": "bonk",
+      "file": "thud.wav",
+      "seconds": 0.16,
+      "line": "That was the table."
+    },
+    {
+      "id": "cork-pop",
+      "tag": "bonk",
+      "file": "cork-pop.wav",
+      "seconds": 0.12,
+      "line": "Something left a bottle."
+    },
+    {
+      "id": "squeaky-toy",
+      "tag": "bonk",
+      "file": "squeaky-toy.wav",
+      "seconds": 0.34,
+      "line": "A rubber toy is suffering."
+    },
+    {
+      "id": "party-horn",
+      "tag": "bonk",
+      "file": "party-horn.wav",
+      "seconds": 0.38,
+      "line": "A party horn unrolled itself."
+    },
+    {
+      "id": "water-drop",
+      "tag": "bonk",
+      "file": "water-drop.wav",
+      "seconds": 0.09,
+      "line": "One drop. No rain."
+    },
+    {
+      "id": "spring",
+      "tag": "boing",
+      "file": "spring.wav",
+      "seconds": 0.55,
+      "line": "Boing."
+    },
+    {
+      "id": "sproing",
+      "tag": "boing",
+      "file": "sproing.wav",
+      "seconds": 0.26,
+      "line": "Sproing, which is different."
+    },
+    {
+      "id": "slide-up",
+      "tag": "boing",
+      "file": "slide-up.wav",
+      "seconds": 0.4,
+      "line": "A whistle went up the stairs."
+    },
+    {
+      "id": "slide-down",
+      "tag": "boing",
+      "file": "slide-down.wav",
+      "seconds": 0.44,
+      "line": "A whistle gave up."
+    },
+    {
+      "id": "jaw-harp",
+      "tag": "boing",
+      "file": "jaw-harp.wav",
+      "seconds": 0.52,
+      "line": "A jaw harp did jaw harp things."
+    },
+    {
+      "id": "ricochet",
+      "tag": "boing",
+      "file": "ricochet.wav",
+      "seconds": 0.48,
+      "line": "Cartoon physics, audio only."
+    }
+  ]
+}

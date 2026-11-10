@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PicSong</title>
+  <meta name="description" content="Drop a picture. PicSong mashes a soundboard at it for about twelve seconds. Same picture, same mash. Download the WAV.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23efe6d2'/%3E%3Ccircle cx='11' cy='12' r='4' fill='%231c140c'/%3E%3Crect x='5' y='22' width='22' height='4' fill='%23c7372a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="mast">
+      <p class="kicker">Vol. I · Free · No melody</p>
+      <h1>PicSong</h1>
+      <p class="dek">Drop in a picture. Press the button. A soundboard gets mashed for about twelve seconds. Same picture, same mash.</p>
+    </header>
+
+    <label class="drop" id="drop">
+      <input class="file" id="file" type="file" accept="image/*">
+      <img id="preview" alt="" hidden>
+      <span class="drop-title" id="drop-title">Drop a picture here</span>
+      <span class="drop-hint" id="drop-hint">Paste one, or tap to choose a file.</span>
+    </label>
+
+    <div class="actions">
+      <button class="play" id="play" type="button" disabled>Mash the soundboard</button>
+      <button class="download" id="download" type="button" disabled>Download the WAV</button>
+    </div>
+
+    <div class="meter-block">
+      <div class="meter-label"><span>The picture</span><span>The noises</span></div>
+      <div class="track" id="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="How much of the mash has happened">
+        <div class="fill" id="fill"></div>
+      </div>
+    </div>
+    <p class="caption" id="caption">Sixteen beats. Four rows. No song.</p>
+    <p class="status" id="status" role="status">Lining up the honks…</p>
+
+    <footer class="foot">
+      <p>No account. The picture never leaves this page. PicSong does not write music. It hits a soundboard with your colors.</p>
+    </footer>
+  </main>
+  <noscript>
+    <p>PicSong needs JavaScript to mash the soundboard. Nothing is uploaded either way.</p>
+  </noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
