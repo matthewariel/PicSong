@@ -1,6 +1,5 @@
 import { loadPack } from './pack.js';
 import {
-  BEAT_SEC,
   COLS,
   buildSchedule,
   captionForColumn,
@@ -22,6 +21,7 @@ const status = document.querySelector('#status');
 
 let pack = null;
 let imageData = null;
+let sourcePixels = 0;
 let schedule = null;
 let objectUrl = null;
 let imageToken = 0;
@@ -42,7 +42,7 @@ packPromise.then((loaded) => {
 });
 
 paintMeter(0, 1, true);
-setCaption('Sixteen beats. Four rows. No song.');
+setCaption('About five seconds. It crowds, then it does not.');
 
 fileInput.addEventListener('change', () => {
   const file = fileInput.files && fileInput.files[0];
@@ -156,6 +156,7 @@ function drawToImageData(img) {
   const sourceW = img.naturalWidth || img.width;
   const sourceH = img.naturalHeight || img.height;
   if (!sourceW || !sourceH) throw new Error('empty');
+  sourcePixels = sourceW * sourceH;
   const maxEdge = 4096;
   let width = sourceW;
   let height = sourceH;
@@ -193,7 +194,7 @@ function rebuildSchedule() {
     schedule = null;
     return;
   }
-  schedule = buildSchedule(gridFromImageData(imageData), clipsForSchedule());
+  schedule = buildSchedule(gridFromImageData(imageData), clipsForSchedule(), sourcePixels);
 }
 
 async function takeFile(file) {
@@ -235,7 +236,7 @@ async function takeFile(file) {
     playing = false;
     setPlayLabel(false);
     paintMeter(0, schedule.duration, true);
-    setCaption('Sixteen beats. Four rows. No song.');
+    setCaption('About five seconds. It crowds, then it does not.');
     setStatus('Picture received. The soundboard is armed.');
     syncButtons();
   } catch {
@@ -299,16 +300,26 @@ function paintMeter(elapsed, duration, idle) {
   fill.style.transform = `scaleX(${amount})`;
   meter.setAttribute('aria-valuenow', String(Math.round(amount * 100)));
   if (idle || !schedule) return;
-  const column = Math.floor(elapsed / BEAT_SEC);
+  let column = -1;
+  let started = -1;
+  let lastHit = 0;
+  for (const event of schedule.events) {
+    if (event.time > lastHit) lastHit = event.time;
+    if (event.time <= elapsed && event.time >= started) {
+      started = event.time;
+      column = event.col;
+    }
+  }
   if (elapsed >= duration) return;
-  if (column >= COLS) {
+  if (column < 0) return;
+  if (elapsed > lastHit + 0.2) {
     if (lastColumn !== COLS) {
       lastColumn = COLS;
       setCaption('Letting the last bonk finish.');
     }
     return;
   }
-  if (column !== lastColumn && column >= 0) {
+  if (column !== lastColumn) {
     lastColumn = column;
     setCaption(captionForColumn(schedule.events, column));
   }
