@@ -4,10 +4,11 @@
 
 export const COLS = 16;
 export const ROWS = 4;
-export const BEAT_SEC = 0.75;
-export const ROW_STAGGER_SEC = 0.16;
+export const BEAT_SEC = 0.262;
+export const ROW_STAGGER_SEC = 0.036;
 const JITTER_STEPS = 61;
-const TAIL_SEC = 0.04;
+const TAIL_SEC = 0.02;
+const MAX_DURATION_SEC = 5;
 
 export function hashInt(...parts) {
   let h = 2166136261;
@@ -207,7 +208,7 @@ export function buildSchedule(grid, clips) {
   }
   let end = 0;
   for (const event of events) end = Math.max(end, event.time + event.seconds);
-  return { events, duration: end + TAIL_SEC, cols: COLS, rows: ROWS };
+  return { events, duration: Math.min(MAX_DURATION_SEC, end + TAIL_SEC), cols: COLS, rows: ROWS };
 }
 
 export function captionForColumn(events, col) {
