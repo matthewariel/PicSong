@@ -1,15 +1,19 @@
 // A picture becomes a stable soundboard schedule.
-// Columns still run left to right. The middle of the five seconds is a burst;
-// the stretches around it stay sparse. Larger pictures add more simultaneous hits,
-// up to a 4K frame, and never past that.
+// Columns still run left to right. Most of the mash stays sparse, with one
+// burst in the middle. Longer mashes also drop in short crowds: every row
+// at once, then back to the sparse stretch. A short mash never adds a crowd.
+// Length runs 2.5s for a tiny picture and 5s for a 4K frame (3840×2160),
+// or any picture with at least that many pixels, and never longer.
+// Larger pictures also add more simultaneous hits, up to that same frame.
 
 export const COLS = 16;
 export const ROWS = 4;
 export const BEAT_SEC = 0.262;
 export const ROW_STAGGER_SEC = 0.05;
 export const CAP_PIXELS = 3840 * 2160;
+export const MIN_DURATION_SEC = 2.5;
+export const MAX_DURATION_SEC = 5;
 const TAIL_SEC = 0.02;
-const MAX_DURATION_SEC = 5;
 const LATEST_START_SEC = 4.05;
 
 // Sparse, burst, sparse. Column lists cover 0..15 once.
@@ -17,6 +21,14 @@ const SECTIONS = [
   { kind: 'sparse', start: 0, end: 1.15, cols: [0, 1, 2, 3, 4] },
   { kind: 'burst', start: 1.28, end: 2.02, cols: [5, 6, 7, 8] },
   { kind: 'sparse', start: 2.22, end: 3.92, cols: [9, 10, 11, 12, 13, 14, 15] },
+];
+
+// Crowds land in the sparse stretches of the five-second layout.
+// Below this fraction of a 4K frame, the mash is too short to add them.
+const SWARM_FLOOR = 0.36;
+const SWARM_WINDOWS = [
+  { start: 0.62, cols: [0, 1, 2, 3, 4, 5, 6, 7] },
+  { start: 3.05, cols: [8, 9, 10, 11, 12, 13, 14, 15] },
 ];
 
 export function hashInt(...parts) {
@@ -144,12 +156,19 @@ function pickWeighted(pairs, hash) {
   return pairs[pairs.length - 1][0];
 }
 
-function pickClip(clips, tag, hash) {
+function pickClip(clips, tag, hash, shortClip) {
   const pool = [];
   for (const clip of clips) {
     if (clip.tag === tag) pool.push(clip);
   }
-  const source = pool.length ? pool : clips;
+  let source = pool.length ? pool : clips;
+  if (shortClip) {
+    const brief = [];
+    for (const clip of source) {
+      if (clip.seconds <= 0.4) brief.push(clip);
+    }
+    if (brief.length) source = brief;
+  }
   if (!source.length) throw new Error('The soundboard is empty');
   return source[hash % source.length];
 }
@@ -199,6 +218,12 @@ export function intensityForPixels(pixels) {
   return Math.min(1, count / CAP_PIXELS);
 }
 
+export function durationForPixels(pixels) {
+  const span = MAX_DURATION_SEC - MIN_DURATION_SEC;
+  const duration = MIN_DURATION_SEC + span * intensityForPixels(pixels);
+  return Math.round(duration * 1000) / 1000;
+}
+
 function rowCount(intensity) {
   return Math.max(1, Math.min(ROWS, Math.round(intensity * ROWS)));
 }
@@ -207,19 +232,50 @@ function burstExtras(intensity) {
   return Math.max(0, Math.min(4, Math.round(intensity * 4)));
 }
 
+function swarmWindows(intensity) {
+  if (intensity <= SWARM_FLOOR) return [];
+  const amount = (intensity - SWARM_FLOOR) / (1 - SWARM_FLOOR);
+  const layers = Math.max(1, Math.min(2, Math.ceil(amount * 2)));
+  const windows = amount < 0.45 ? SWARM_WINDOWS.slice(0, 1) : SWARM_WINDOWS;
+  return windows.map((window) => ({
+    start: window.start,
+    layers,
+    cols: window.cols.slice(0, Math.max(2, Math.round(amount * window.cols.length))),
+  }));
+}
+
 function clampStart(time) {
   if (time < 0) return 0;
   if (time > LATEST_START_SEC) return LATEST_START_SEC;
   return time;
 }
 
-function pushHit(events, cell, clips, col, row, time, gainScale, salt, crowd) {
+// Section times are written for a five-second mash. Scale every start by the
+// same amount so the sample that finishes last ends as the mash ends.
+function fitToDuration(events, target) {
+  const budget = Math.max(0, target - TAIL_SEC);
+  let scale = Number.POSITIVE_INFINITY;
+  for (const event of events) {
+    if (event.time <= 0) continue;
+    const room = budget - event.seconds;
+    const fit = room > 0 ? room / event.time : 0;
+    if (fit < scale) scale = fit;
+  }
+  if (!Number.isFinite(scale) || scale < 0) scale = 0;
+  for (const event of events) {
+    const latest = Math.max(0, budget - event.seconds);
+    event.time = Math.min(latest, event.time * scale);
+  }
+  events.sort((a, b) => a.time - b.time || a.col - b.col || a.row - b.row);
+}
+
+function pushHit(events, cell, clips, col, row, time, gainScale, salt, crowd, shortClip) {
   const tag = pickWeighted(weightsFor(cell), hashInt(cell.r, cell.g, cell.b, col, row, salt));
-  let chosen = pickClip(clips, tag, hashInt(cell.r, cell.g, cell.b, col, row, salt + 1));
+  let chosen = pickClip(clips, tag, hashInt(cell.r, cell.g, cell.b, col, row, salt + 1), shortClip);
   if (salt !== 1) {
-    const primary = pickClip(clips, tag, hashInt(cell.r, cell.g, cell.b, col, row, 2));
+    const primary = pickClip(clips, tag, hashInt(cell.r, cell.g, cell.b, col, row, 2), shortClip);
     if (chosen.id === primary.id) {
-      chosen = pickClip(clips, tag, hashInt(cell.r, cell.g, cell.b, col, row, salt + 9));
+      chosen = pickClip(clips, tag, hashInt(cell.r, cell.g, cell.b, col, row, salt + 9), shortClip);
     }
   }
   const brightness = Math.min(1, Math.max(0, cell.brightness));
@@ -235,6 +291,23 @@ function pushHit(events, cell, clips, col, row, time, gainScale, salt, crowd) {
     line: chosen.line || '',
     crowd,
   });
+}
+
+function addSwarms(events, grid, clips, intensity) {
+  for (const window of swarmWindows(intensity)) {
+    for (let layer = 0; layer < window.layers; layer += 1) {
+      const gain = 0.13 * (0.72 ** layer);
+      window.cols.forEach((col, index) => {
+        for (let row = 0; row < ROWS; row += 1) {
+          const cell = grid[row] && grid[row][col];
+          if (!cell) continue;
+          const jitter = (hashInt(cell.r, cell.g, cell.b, col, row, 80 + layer) % 7) / 1000;
+          const time = window.start + layer * 0.055 + index * 0.003 + row * 0.002 + jitter;
+          pushHit(events, cell, clips, col, row, time, gain, 40 + layer * 5 + index, 'swarm', true);
+        }
+      });
+    }
+  }
 }
 
 export function buildSchedule(grid, clips, pixelCount = CAP_PIXELS) {
@@ -267,12 +340,12 @@ export function buildSchedule(grid, clips, pixelCount = CAP_PIXELS) {
     });
   }
 
-  events.sort((a, b) => a.time - b.time || a.col - b.col || a.row - b.row);
-  let end = 0;
-  for (const event of events) end = Math.max(end, event.time + event.seconds);
+  addSwarms(events, grid, clips, intensity);
+  const duration = durationForPixels(pixelCount);
+  fitToDuration(events, duration);
   return {
     events,
-    duration: Math.min(MAX_DURATION_SEC, end + TAIL_SEC),
+    duration,
     cols: COLS,
     rows: ROWS,
     pixels: Math.max(0, Number(pixelCount) || 0),
